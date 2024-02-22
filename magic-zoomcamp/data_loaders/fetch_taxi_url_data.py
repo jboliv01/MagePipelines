@@ -13,7 +13,7 @@ def load_parquet_url(*args, **kwargs) -> List[List[Dict]]:
     """
     download_info = []
     
-    year = kwargs.get('year', '2022')
+    year = kwargs.get('year', '2019')
     service = kwargs.get('service', 'green')
     
     for i in range(12):

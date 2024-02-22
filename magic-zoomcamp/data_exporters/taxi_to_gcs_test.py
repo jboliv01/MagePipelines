@@ -34,7 +34,7 @@ def export_data_to_google_cloud_storage(df: DataFrame, **kwargs) -> None:
     # Service name (if applicable)
     service = kwargs.get('service', 'default_service')
 
-    object_key = f'ny_taxi_data/{service}/{year}-{month}.parquet'
+    object_key = f'ny_taxi_data/service={service}/year={year}/month={month}/daily_trips.parquet'
 
     from google.cloud import storage
 
