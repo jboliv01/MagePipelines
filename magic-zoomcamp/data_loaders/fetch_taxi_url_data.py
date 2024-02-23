@@ -16,8 +16,8 @@ def load_parquet_url(*args, **kwargs) -> List[List[Dict]]:
     year = kwargs.get('year', '2019')
     service = kwargs.get('service', 'fhv')
     
-    for i in range(3):
-        month = '0'+str(i+1)
+    for i in range(1):
+        month = '0'+str(i+2)
         month = month[-2:]
     
         file_name = f"{service}_tripdata_{year}-{month}.parquet"

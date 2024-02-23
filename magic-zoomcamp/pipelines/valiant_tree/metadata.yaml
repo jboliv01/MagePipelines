@@ -6,7 +6,7 @@ blocks:
     file_source:
       path: data_loaders/fetch_taxi_url_data.py
   downstream_blocks:
-  - fetch_taxi_data_dynamic
+  - charismatic_destiny
   executor_config: null
   executor_type: local_python
   has_callback: false
@@ -18,25 +18,6 @@ blocks:
   type: data_loader
   upstream_blocks: []
   uuid: fetch_taxi_url_data
-- all_upstream_blocks_executed: true
-  color: null
-  configuration:
-    file_source:
-      path: data_loaders/fetch_taxi_data_dynamic.py
-  downstream_blocks:
-  - taxi_to_gcs_test
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: fetch_taxi_data_dynamic
-  retry_config: null
-  status: updated
-  timeout: null
-  type: data_loader
-  upstream_blocks:
-  - fetch_taxi_url_data
-  uuid: fetch_taxi_data_dynamic
 - all_upstream_blocks_executed: false
   color: null
   configuration:
@@ -55,13 +36,29 @@ blocks:
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - fetch_taxi_data_dynamic
+  - charismatic_destiny
   uuid: taxi_to_gcs_test
+- all_upstream_blocks_executed: true
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - taxi_to_gcs_test
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: charismatic destiny
+  retry_config: null
+  status: updated
+  timeout: null
+  type: data_loader
+  upstream_blocks:
+  - fetch_taxi_url_data
+  uuid: charismatic_destiny
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config:
   block_run_limit: 1
-  pipeline_run_limit: 1
 conditionals: []
 created_at: '2024-02-14 00:44:28.244324+00:00'
 data_integration: null

@@ -1,4 +1,5 @@
 import io
+from mage_ai.io.file import FileIO
 import pandas as pd
 from pandas import DataFrame
 import requests
@@ -29,24 +30,24 @@ def load_parquet_from_url(download_info, *args, **kwargs) -> List[List[Dict]]:
     metadata_dict = dict(object_key=f'{file_name}', year=f'{year}', month=f'{month}', service=f'{service}')
 
     # taxi_dtypes = {
-    # 'VendorID': 'Int64',
-    # 'store_and_fwd_flag': 'str',
-    # 'RatecodeID': 'Int64',
-    # 'PULocationID': 'Int64',
-    # 'DOLocationID': 'Int64',
-    # 'passenger_count': 'Int64',
-    # 'trip_distance': 'float64',
-    # 'fare_amount': 'float64',
-    # 'extra': 'float64',
-    # 'mta_tax': 'float64',
-    # 'tip_amount': 'float64',
-    # 'tolls_amount': 'float64',
-    # 'ehail_fee': 'float64',
-    # 'improvement_surcharge': 'float64',
-    # 'total_amount': 'float64',
-    # 'payment_type': 'float64',
-    # 'trip_type': 'float64',
-    # 'congestion_surcharge': 'float64'
+        # 'VendorID': 'Int64',
+        # 'store_and_fwd_flag': 'str',
+        # 'RatecodeID': 'Int64',
+        # 'PULocationID': 'Int64',
+        # 'DOLocationID': 'Int64',
+        # 'passenger_count': 'Int64',
+        # 'trip_distance': 'float64',
+        # 'fare_amount': 'float64',
+        # 'extra': 'float64',
+        # 'mta_tax': 'float64',
+        # 'tip_amount': 'float64',
+        # 'tolls_amount': 'float64',
+        # 'ehail_fee': 'float64',
+        # 'improvement_surcharge': 'float64',
+        # 'total_amount': 'float64',
+        # 'payment_type': 'float64',
+        # 'trip_type': 'float64',
+        # 'congestion_surcharge': 'float64'
     # }
 
    
@@ -75,18 +76,11 @@ def load_parquet_from_url(download_info, *args, **kwargs) -> List[List[Dict]]:
         print(f"Parquet loaded: {file_name}")
         
         # Read the Parquet file into a PyArrow table with modified schema
-        table = pq.read_table(data, schema=taxi_schema)
+        table = pq.read_table(data, schema=taxi_schema, buffer_size=4194304)
         # table = pq.read_table(data)
 
         # Convert to Pandas DataFrame
         df = table.to_pandas()
-
-        # Read the Parquet file schema
-        schema = pq.read_schema(data)
-
-        # Print column names and their data types
-        for name, dtype in zip(schema.names, schema.types):
-            print(f'{name}: {dtype}')
             
         # # Convert and clean the timestamp columns
         df['pickup_datetime'] = safe_convert_to_timestamp(df['pickup_datetime'])
