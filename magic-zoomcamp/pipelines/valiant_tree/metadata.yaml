@@ -31,13 +31,13 @@ blocks:
   language: python
   name: fetch_taxi_data_dynamic
   retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: data_loader
   upstream_blocks:
   - fetch_taxi_url_data
   uuid: fetch_taxi_data_dynamic
-- all_upstream_blocks_executed: true
+- all_upstream_blocks_executed: false
   color: null
   configuration:
     file_source:
@@ -51,7 +51,7 @@ blocks:
   retry_config:
     delay: 10
     retries: 2
-  status: updated
+  status: executed
   timeout: null
   type: data_exporter
   upstream_blocks:
