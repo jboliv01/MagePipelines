@@ -1,69 +1,73 @@
 blocks:
 - all_upstream_blocks_executed: true
-  color: teal
+  color: null
   configuration:
     dynamic: true
+    file_source:
+      path: data_loaders/fetch_taxi_url_data.py
   downstream_blocks:
-  - unifying_byte
+  - fetch_taxi_url_data
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: files
+  name: fetch_taxi_url_metadata
   retry_config: null
-  status: executed
-  timeout: null
-  type: custom
-  upstream_blocks: []
-  uuid: files
-- all_upstream_blocks_executed: true
-  color: null
-  configuration:
-    dynamic: false
-  downstream_blocks:
-  - gcs
-  executor_config: null
-  executor_type: local_python
-  has_callback: false
-  language: python
-  name: unifying byte
-  retry_config: null
-  status: executed
+  status: updated
   timeout: null
   type: data_loader
-  upstream_blocks:
-  - files
-  uuid: unifying_byte
-- all_upstream_blocks_executed: true
+  upstream_blocks: []
+  uuid: fetch_taxi_url_metadata
+- all_upstream_blocks_executed: false
   color: null
   configuration:
-    reduce_output: true
+    file_source:
+      path: data_exporters/taxi_to_gcs_test.py
   downstream_blocks: []
   executor_config: null
   executor_type: local_python
   has_callback: false
   language: python
-  name: gcs
-  retry_config: null
-  status: executed
+  name: export_taxi_data_gcs
+  retry_config:
+    delay: 10
+    retries: 2
+  status: updated
   timeout: null
   type: data_exporter
   upstream_blocks:
-  - unifying_byte
-  uuid: gcs
+  - fetch_taxi_url_data
+  uuid: export_taxi_data_gcs
+- all_upstream_blocks_executed: false
+  color: null
+  configuration: {}
+  downstream_blocks:
+  - export_taxi_data_gcs
+  executor_config: null
+  executor_type: local_python
+  has_callback: false
+  language: python
+  name: fetch_taxi_url_data
+  retry_config: null
+  status: updated
+  timeout: null
+  type: data_loader
+  upstream_blocks:
+  - fetch_taxi_url_metadata
+  uuid: fetch_taxi_url_data
 cache_block_output_in_memory: false
 callbacks: []
 concurrency_config:
-  block_run_limit: 3
+  block_run_limit: 1
 conditionals: []
-created_at: '2024-02-09 04:35:38.505858+00:00'
+created_at: '2024-02-14 00:44:28.244324+00:00'
 data_integration: null
 description: null
 executor_config: {}
 executor_count: 1
 executor_type: null
 extensions: {}
-name: upload_taxi_to_gcs
+name: ingest_all_taxi_data_gcs
 notification_config: {}
 remote_variables_dir: null
 retry_config: {}
@@ -71,11 +75,12 @@ run_pipeline_in_one_process: false
 settings:
   triggers: null
 spark_config: {}
-tags: []
+tags:
+- Week 4
+- DTC
+- etl
 type: python
-uuid: slack_dynamic_pipeline_taxi_gcs
-variables:
-  service: yellow
-  year: 2021
+uuid: ingest_all_taxi_data_gcs
+variables: {}
 variables_dir: /home/src/mage_data/magic-zoomcamp
 widgets: []

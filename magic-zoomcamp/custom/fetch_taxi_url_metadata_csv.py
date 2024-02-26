@@ -20,9 +20,8 @@ def transform_custom(*args, **kwargs):
     
     year = kwargs.get('year')
     service = kwargs.get('service')
-    
 
-    for i in range(1):
+    for i in range(12):
         month = '0'+str(i+1)
         month = month[-2:]
 
@@ -31,7 +30,7 @@ def transform_custom(*args, **kwargs):
 
         request_url = f"{init_url}{service}/{file_name}"
 
-        download_info.append(dict(file_name=f'{file_name_csv}', request_url=f'{request_url}', year=f'{year}', service=f'{service}'))
+        download_info.append(dict(file_name=f'{file_name_csv}', request_url=f'{request_url}', year=f'{year}', month=f'{month}', service=f'{service}'))
 
 
     return [download_info]

@@ -25,6 +25,7 @@ def export_data_to_google_cloud_storage(df: DataFrame, **kwargs) -> None:
 
     year = kwargs['year']
     month = kwargs['month']
+    print(month)
 
     os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'dtc-de-zoomcamp-410523-de26a07c6818.json'
 

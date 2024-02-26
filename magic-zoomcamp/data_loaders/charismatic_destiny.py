@@ -33,8 +33,33 @@ def load_parquet_from_url(download_info, *args, **kwargs) -> pd.DataFrame:
             ('SR_Flag', pa.float64()),
             ('Affiliated_base_number', pa.string()),
         ])
+    elif service == 'green':
+        taxi_schema = pa.schema([
+            ('lpep_pickup_datetime', pa.string()),
+            ('lpep_dropoff_datetime', pa.string()),
+            ('VendorID', pa.int64()),
+            ('store_and_fwd_flag', pa.string()),
+            ('RatecodeID', pa.int64()),
+            ('PULocationID', pa.int64()),
+            ('DOLocationID', pa.int64()),
+            ('passenger_count', pa.int64()),
+            ('trip_distance', pa.float64()),
+            ('fare_amount', pa.float64()),
+            ('extra', pa.float64()),
+            ('mta_tax', pa.float64()),
+            ('tip_amount', pa.float64()),
+            ('tolls_amount', pa.float64()),
+            ('ehail_fee', pa.float64()),
+            ('improvement_surcharge', pa.float64()),
+            ('total_amount', pa.float64()),
+            ('payment_type', pa.float64()),
+            ('trip_type', pa.float64()),
+            ('congestion_surcharge', pa.float64())
+        ])
     else:
         taxi_schema = pa.schema([
+            ('tpep_pickup_datetime', pa.string()),
+            ('tpep_dropoff_datetime', pa.string()),
             ('VendorID', pa.int64()),
             ('store_and_fwd_flag', pa.string()),
             ('RatecodeID', pa.int64()),
@@ -80,9 +105,15 @@ def load_parquet_from_url(download_info, *args, **kwargs) -> pd.DataFrame:
             # Use FileIO to load the Parquet file into a DataFrame
             df = FileIO(verbose=True).load(tmp.name, format='parquet', schema=taxi_schema)
 
-            if service == 'fhv'
+            if service == 'fhv':
                 df['pickup_datetime'] = safe_convert_to_timestamp(df['pickup_datetime'])
                 df['dropOff_datetime'] = safe_convert_to_timestamp(df['dropOff_datetime'])
+            elif service == 'green':
+                df['lpep_pickup_datetime'] = safe_convert_to_timestamp(df['lpep_pickup_datetime'])
+                df['lpep_dropoff_datetime'] = safe_convert_to_timestamp(df['lpep_dropoff_datetime'])
+            else: 
+                df['tpep_pickup_datetime'] = safe_convert_to_timestamp(df['tpep_pickup_datetime'])
+                df['tpep_dropoff_datetime'] = safe_convert_to_timestamp(df['tpep_dropoff_datetime'])
 
         # Now df contains the DataFrame loaded from the Parquet file
         return [df, metadata]
