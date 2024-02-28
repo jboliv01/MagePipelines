@@ -18,8 +18,6 @@ def load_data_from_api(df,*args, **kwargs):
     service = df['service']
     metadata.append(dict(object_key=f'{file_name_csv}', year=f'{year}', month=f'{month}', service=f'{service}'))
 
-    print(service)
-
     if service == 'fhv':
         parse_taxi_dates = ['pickup_datetime', 'dropOff_datetime']
         taxi_schema = {
